@@ -1,5 +1,6 @@
 from .. import models
 from ..webhooks import registry
+import traceback 
 
 
 def add_event(stripe_id, kind, livemode, message, api_version="", request_id="", pending_webhooks=0):
@@ -24,10 +25,19 @@ def add_event(stripe_id, kind, livemode, message, api_version="", request_id="",
         request=request_id,
         pending_webhooks=pending_webhooks
     )
+    print("\n>>>>>>>>>>>>>>>")
     WebhookClass = registry.get(kind)
     if WebhookClass is not None:
         webhook = WebhookClass(event)
-        webhook.process()
+        try:
+            webhook.process()
+            print("Success")
+        except Exception as e:
+            tb = traceback.format_exc()
+            if 'Customer matching query' not in tb:
+                print(tb)
+    print("\nEvent: " + str(event))
+    print("<<<<<<<<<<<<<<\n")
 
 
 def dupe_event_exists(stripe_id):

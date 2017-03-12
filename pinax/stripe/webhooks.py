@@ -83,6 +83,7 @@ class Webhook(with_metaclass(Registerable, object)):
             return signal.send(sender=self.__class__, event=self.event)
 
     def process(self):
+        print('Processing webhook: %s' % str(self))
         self.validate()
         if not self.event.valid or self.event.processed:
             return
