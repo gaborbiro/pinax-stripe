@@ -35,7 +35,8 @@ def add_event(stripe_id, kind, livemode, message, api_version="", request_id="",
         except Exception as e:
             tb = traceback.format_exc()
             if 'Customer matching query' not in tb:
-                print(tb)
+                #print(tb)
+                pass
     print("\nEvent: " + str(event))
     print("<<<<<<<<<<<<<<\n")
 

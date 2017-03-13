@@ -29,3 +29,16 @@ def sync_plans():
             defaults=defaults
         )
         utils.update_with_defaults(obj, defaults, created)
+
+
+def create(plan):
+    stripe_plan = stripe.Plan.create(
+        name=plan.name,
+        id=plan.stripe_id,
+        interval=plan.interval,
+        interval_count=plan.interval_count,
+        currency=plan.currency,
+        amount=utils.convert_amount_for_api(plan.amount, currency=plan.currency),
+        statement_descriptor="MONOSAUR",
+        metadata=plan.metadata,
+    )
