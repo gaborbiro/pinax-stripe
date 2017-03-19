@@ -23,7 +23,7 @@ def cancel(subscription, at_period_end=True):
     sync_subscription_from_stripe_data(subscription.customer, sub)
 
 
-def create(customer, plan, quantity=None, trial_days=None, token=None, coupon=None, tax_percent=None):
+def create(customer, plan, quantity=None, trial_days=None, token=None, coupon=None, tax_percent=None, metadata=None):
     """
     Creates a subscription for the given customer
 
@@ -55,6 +55,7 @@ def create(customer, plan, quantity=None, trial_days=None, token=None, coupon=No
     subscription_params["quantity"] = quantity
     subscription_params["coupon"] = coupon
     subscription_params["tax_percent"] = tax_percent
+    subscription_params["metadata"] = metadata
     resp = cu.subscriptions.create(**subscription_params)
 
     return sync_subscription_from_stripe_data(customer, resp)
